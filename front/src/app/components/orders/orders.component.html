@@ -1,0 +1,47 @@
+
+<button class="btn btn-success rounded-pill px-3 button-add" type="button" (click)="callForm()">Добавить</button>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm table-border">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Клиент</th>
+          <th scope="col">Адрес</th>
+          <th scope="col">Дата</th>
+          <th scope="col" class="th-td-near-buttons"></th>
+          <th class="th-bottons"></th>
+          <th class="th-bottons"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of orders;">
+          <td>{{o.id}}</td>
+          <td *ngIf="o.isCollapsedButton">{{o.client}}</td>
+          <td *ngIf="!o.isCollapsedButton"><input type="text" [(ngModel)]="o.client"></td>
+
+          <td *ngIf="o.isCollapsedButton">{{o.address}}</td>
+          <td *ngIf="!o.isCollapsedButton"><input type="text" [(ngModel)]="o.address"></td>
+          
+          <td *ngIf="o.isCollapsedButton">{{o.date}}</td>
+          <td *ngIf="!o.isCollapsedButton"><input type="date" [(ngModel)]="o.date"></td>
+
+          <td>
+            <button class="btn btn-light rounded-pill px-3" type="button" [routerLink]="['/orders/', o.id]">Перейти к товарам</button>
+          </td>
+          
+          
+          <td>
+            <button class="btn btn-warning rounded-pill px-3" type="button" *ngIf="o.isCollapsedButton" (click)="toggleCollapse(o.id)">Изменить</button>
+            <button class="btn btn-primary rounded-pill px-3" type="button" *ngIf="!o.isCollapsedButton" (click)="update(o.id)">Сохранить</button>
+          </td>
+          <td class="td-bottons">
+            <button class="btn btn-danger rounded-pill px-3" type="button" (click)="deleteOrder(o.id)">X</button>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <app-create-form-orders (buttonClick)="closeForm()" [isCreateForm]="isCreateForm" *ngIf="isCreateForm"></app-create-form-orders>

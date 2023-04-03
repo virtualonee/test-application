@@ -1,0 +1,31 @@
+<div class="modal-content rounded-4 shadow create-form">
+    <div class="modal-header p-5 pb-4 border-bottom-0">
+      <h1 class="fw-bold mb-0 fs-2">Добавить заказ</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeForm()"></button>
+    </div>
+
+    <div class="modal-body p-5 pt-0">
+
+      <form [formGroup]="orders" (ngSubmit)="post()">
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control rounded-3" id="client" formControlName="client">
+          <label for="placeholder">Клиент</label>
+        </div>
+        
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control rounded-3" id="address" formControlName="address">
+          <label for="placeholder">Адресс</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control rounded-3" id="date" formControlName="date">
+            <label for="placeholder">Дата</label>
+          </div>
+
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Сохранить</button>
+
+      </form>
+    </div>
+  </div>
