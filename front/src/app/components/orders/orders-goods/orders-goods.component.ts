@@ -68,4 +68,18 @@ export class OrdersGoodsComponent implements OnInit {
     this.isCreateForm=false;
   }
 
+  update(id:bigint){
+    
+    const orderLine = this.orderLines.find(element => 
+      element.id==id
+    );
+
+    console.log(orderLine.count)
+
+    return this.http.put(GlobalConstants.url+'/order_lines/'+id+'/update', orderLine).subscribe((result) => {
+      console.warn('result: ', result);
+      window.location.reload();
+    });
+  }
+
 }

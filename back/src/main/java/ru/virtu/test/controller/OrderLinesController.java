@@ -36,6 +36,8 @@ public class OrderLinesController {
     @PutMapping("/{id}/update")
     public ResponseEntity<HttpStatus> updateOrder(@PathVariable Long id, @RequestBody @Valid OrderLinesResponseDTO orderLineDTO){
 
+        orderLinesService.saveDTO(orderLineDTO);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -10,31 +10,32 @@ import ru.virtu.test.models.Goods;
 import ru.virtu.test.services.GoodsService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/goods")
 @CrossOrigin(origins = "http://localhost:4200")
-public class GoodsesController {
+public class GoodsController {
 
     private final GoodsService goodsService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public GoodsesController(GoodsService goodsService, ModelMapper modelMapper) {
+    public GoodsController(GoodsService goodsService, ModelMapper modelMapper) {
         this.goodsService = goodsService;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping()
-    public List<Goods> getAllGoodses() {
-        return goodsService.findAll();
+    public List<GoodsDTO> getAllGoodses() {
+        return convertToGoodsDTOList(goodsService.findAll());
     }
 
     @GetMapping("/{id}/get")
-    public Goods getGoods(@PathVariable Long id){
-        return goodsService.findOne(id);
+    public GoodsDTO getGoods(@PathVariable Long id){
+        return convertToGoodsDTO(goodsService.findOne(id));
     }
 
     @PostMapping("/add")
@@ -67,6 +68,17 @@ public class GoodsesController {
 
     private GoodsDTO convertToGoodsDTO(Goods goods) {
         return modelMapper.map(goods, GoodsDTO.class);
+    }
+
+    private List<GoodsDTO> convertToGoodsDTOList(List<Goods> goodses){
+        List<GoodsDTO> goodsesDTO = new ArrayList<>();
+
+        for (Goods goods:
+             goodses) {
+            goodsesDTO.add(convertToGoodsDTO(goods));
+        }
+
+        return goodsesDTO;
     }
 
 }

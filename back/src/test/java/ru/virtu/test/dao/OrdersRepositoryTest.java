@@ -51,20 +51,20 @@ class OrdersRepositoryTest {
     @Test
     void findOne() {
         Optional<OrderGoods> order = ordersRepository.findById(savedOrderGoods.getId());
-        Assertions.assertEquals(order.get(), savedOrderGoods);
+        Assertions.assertEquals(order.orElse(null), savedOrderGoods);
     }
 
     @Test
     void findByClient() {
         Optional<OrderGoods> order = ordersRepository.findByClient(savedOrderGoods.getClient());
-        Assertions.assertEquals(order.get(), savedOrderGoods);
+        Assertions.assertEquals(order.orElse(null), savedOrderGoods);
     }
 
     @Test
     void save() {
         OrderGoods order = new OrderGoods("client2", "testAddress2", new Date());
         ordersRepository.save(order);
-        Assertions.assertEquals(ordersRepository.findByClient("client2").get(), order);
+        Assertions.assertEquals(ordersRepository.findByClient("client2").orElse(null), order);
     }
 
     @Test
@@ -74,7 +74,7 @@ class OrdersRepositoryTest {
         savedOrderGoods.setClient("newName");
         ordersRepository.save(savedOrderGoods);
 
-        Assertions.assertEquals(ordersRepository.findByClient("newName").get(), savedOrderGoods);
+        Assertions.assertEquals(ordersRepository.findByClient("newName").orElse(null), savedOrderGoods);
     }
 
     @Test

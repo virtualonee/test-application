@@ -1,7 +1,5 @@
 package ru.virtu.test.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -23,8 +21,7 @@ public class Goods {
     @Column(name = "price")
     private Long price;
 
-    @OneToMany(mappedBy = "orderGoods", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines;
 
     public Goods(){
@@ -32,6 +29,12 @@ public class Goods {
     }
 
     public Goods(String name, Long price){
+        this.name = name;
+        this.price = price;
+    }
+
+    public Goods(Long id, String name, Long price){
+        this.id = id;
         this.name = name;
         this.price = price;
     }
@@ -79,14 +82,5 @@ public class Goods {
     @Override
     public int hashCode() {
         return Objects.hash(name, price);
-    }
-
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

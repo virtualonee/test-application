@@ -4,9 +4,19 @@ package ru.virtu.test.dto;
 import java.util.Date;
 
 public class OrderDTO {
+
+    public Long id;
     public String client;
     public String address;
     public Date date;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getClient() {
         return client;

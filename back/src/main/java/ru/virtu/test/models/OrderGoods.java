@@ -1,7 +1,5 @@
 package ru.virtu.test.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -30,7 +28,6 @@ public class OrderGoods {
     private Date date;
 
     @OneToMany(mappedBy = "orderGoods", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<OrderLine> orderLines;
 
     public OrderGoods(){
@@ -101,16 +98,5 @@ public class OrderGoods {
     @Override
     public int hashCode() {
         return Objects.hash(client, date, address);
-    }
-
-    @Override
-    public String toString() {
-        return "OrderGoods{" +
-                "id=" + id +
-                ", client='" + client + '\'' +
-                ", address='" + address + '\'' +
-                ", date=" + date +
-                ", orderLines=" + orderLines +
-                '}';
     }
 }

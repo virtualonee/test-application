@@ -1,6 +1,5 @@
 package ru.virtu.test.services;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +7,6 @@ import ru.virtu.test.dao.OrdersRepository;
 import ru.virtu.test.models.OrderGoods;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -30,13 +28,7 @@ public class OrdersService {
     
 
     public OrderGoods findOne(Long id) {
-        Optional<OrderGoods> orderGoods = ordersRepository.findById(id);
-        OrderGoods order = orderGoods.orElse(null);
-
-        Hibernate.initialize(order.getOrderLines());
-        System.out.println(order);
-
-        return order;
+        return ordersRepository.findById(id).orElse(null);
     }
 
     @Transactional

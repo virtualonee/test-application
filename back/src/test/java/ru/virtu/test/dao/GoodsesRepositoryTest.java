@@ -28,7 +28,7 @@ class GoodsesRepositoryTest {
 
     @BeforeEach
     void createRecord(){
-        Goods goods = new Goods("goods2", 500l);
+        Goods goods = new Goods("goods1", 500l);
 
         goodsRepository.save(goods);
         this.savedGoods = goods;
@@ -48,20 +48,20 @@ class GoodsesRepositoryTest {
     @Test
     void findOne() {
         Optional<Goods> goods = goodsRepository.findById(savedGoods.getId());
-        Assertions.assertEquals(goods.get(), savedGoods);
+        Assertions.assertEquals(goods.orElse(null), savedGoods);
     }
 
     @Test
     void findByName() {
         Optional<Goods> goods = goodsRepository.findByName(savedGoods.getName());
-        Assertions.assertEquals(goods.get(), savedGoods);
+        Assertions.assertEquals(goods.orElse(null), savedGoods);
     }
 
     @Test
     void save() {
         Goods goods = new Goods("newName", 100l);
         goodsRepository.save(goods);
-        Assertions.assertEquals(goodsRepository.findByName("newName").get(), goods);
+        Assertions.assertEquals(goodsRepository.findByName("newName").orElse(null), goods);
     }
 
     @Test
@@ -71,7 +71,7 @@ class GoodsesRepositoryTest {
         savedGoods.setName("newName");
         goodsRepository.save(savedGoods);
 
-        Assertions.assertEquals(goodsRepository.findByName("newName").get(), savedGoods);
+        Assertions.assertEquals(goodsRepository.findByName("newName").orElse(null), savedGoods);
     }
 
     @Test

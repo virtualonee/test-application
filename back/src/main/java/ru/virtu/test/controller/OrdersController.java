@@ -32,16 +32,12 @@ public class OrdersController {
     }
 
     @GetMapping()
-    public List<OrderGoods> getAllOrders() {
-        return ordersService.findAll();
-    }
+    public List<OrderDTO> getAllOrders() {return convertToOrderDTOList(ordersService.findAll());}
 
     @GetMapping("/{id}/get")
     public OrderWithOrderLinesDTO getOrder(@PathVariable Long id){
 
-        OrderGoods orderGoods = ordersService.findOne(id);
-
-        return convertToOrderWithOrderLinesDTO(orderGoods);
+        return convertToOrderWithOrderLinesDTO(ordersService.findOne(id));
     }
 
     @PostMapping("/add")
@@ -83,6 +79,15 @@ public class OrdersController {
 
     private OrderDTO convertToOrderDTO(OrderGoods order) {
         return modelMapper.map(order, OrderDTO.class);
+    }
+
+    private List<OrderDTO> convertToOrderDTOList(List<OrderGoods> orders){
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+
+        for (OrderGoods order: orders) {
+            orderDTOS.add(convertToOrderDTO(order));
+        }
+        return orderDTOS;
     }
 
     private OrderWithOrderLinesDTO convertToOrderWithOrderLinesDTO(OrderGoods order){

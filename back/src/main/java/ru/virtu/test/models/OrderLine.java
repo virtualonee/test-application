@@ -27,6 +27,12 @@ public class OrderLine {
 
     }
 
+    public OrderLine(OrderGoods orderGoods, Goods goods, Long count) {
+        this.orderGoods = orderGoods;
+        this.goods = goods;
+        this.count = count;
+    }
+
     public OrderLine(Long id, OrderGoods orderGoods, Goods goods, Long count) {
         this.id = id;
         this.orderGoods = orderGoods;
@@ -77,15 +83,5 @@ public class OrderLine {
     @Override
     public int hashCode() {
         return Objects.hash(orderGoods, goods, count);
-    }
-
-    @Override
-    public String toString() {
-        return "OrderLine{" +
-                "id=" + id +
-                ", orderGoods=" + orderGoods.getId() +
-                ", goods=" + goods.getId() +
-                ", count=" + count +
-                '}';
     }
 }
