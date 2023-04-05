@@ -1,8 +1,15 @@
 package ru.virtu.test.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrderWithOrderLinesDTO {
 
     public Long id;
@@ -11,43 +18,4 @@ public class OrderWithOrderLinesDTO {
     public Date date;
     public List<OrderLinesDTO> orderLinesDTOS;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public List<OrderLinesDTO> getOrderLinesDTOS() {
-        return orderLinesDTOS;
-    }
-
-    public void setOrderLinesDTOS(List<OrderLinesDTO> orderLinesDTOS) {
-        this.orderLinesDTOS = orderLinesDTOS;
-    }
 }

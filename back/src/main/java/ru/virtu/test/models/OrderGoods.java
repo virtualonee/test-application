@@ -1,11 +1,18 @@
 package ru.virtu.test.models;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name="Order_goods")
 public class OrderGoods {
@@ -28,11 +35,8 @@ public class OrderGoods {
     private Date date;
 
     @OneToMany(mappedBy = "orderGoods", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<OrderLine> orderLines;
-
-    public OrderGoods(){
-
-    }
 
     public OrderGoods(String client, String address, Date date){
         this.client = client;
@@ -47,56 +51,16 @@ public class OrderGoods {
         this.orderLines = orderLines;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<OrderLine> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(List<OrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderGoods orderGoods = (OrderGoods) o;
-        return Objects.equals(client, orderGoods.client) && Objects.equals(date, orderGoods.date) && Objects.equals(address, orderGoods.address);
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        OrderGoods that = (OrderGoods) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(client, date, address);
+        return getClass().hashCode();
     }
 }

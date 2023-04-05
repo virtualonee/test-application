@@ -94,7 +94,6 @@ public class OrdersController {
 
         OrderWithOrderLinesDTO orderWithOrderLinesDTO = new OrderWithOrderLinesDTO();
         List<OrderLinesDTO> orderLinesDTOS = new ArrayList<>();
-        OrderLinesDTO lineDTO = new OrderLinesDTO();
 
         orderWithOrderLinesDTO.setId(order.getId());
         orderWithOrderLinesDTO.setClient(order.getClient());
@@ -102,8 +101,8 @@ public class OrdersController {
         orderWithOrderLinesDTO.setDate(order.getDate());
 
         for (OrderLine line: order.getOrderLines()) {
-            orderLinesDTOS.add(new OrderLinesDTO(line.getId(), line.getGood().getId(),
-                    line.getGood().getName(), order.getId(), line.getGood().getPrice(), line.getCount()));
+            orderLinesDTOS.add(new OrderLinesDTO(line.getId(), line.getGoods().getId(),
+                    line.getGoods().getName(), order.getId(), line.getGoods().getPrice(), line.getCount()));
         }
 
         orderWithOrderLinesDTO.setOrderLinesDTOS(orderLinesDTOS);

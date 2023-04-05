@@ -1,10 +1,17 @@
 package ru.virtu.test.models;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
+@ToString
 @Entity
 @Table(name="Goods")
 public class Goods {
@@ -22,11 +29,8 @@ public class Goods {
     private Long price;
 
     @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<OrderLine> orderLines;
-
-    public Goods(){
-
-    }
 
     public Goods(String name, Long price){
         this.name = name;
@@ -39,48 +43,16 @@ public class Goods {
         this.price = price;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
-    public List<OrderLine> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(List<OrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Goods good = (Goods) o;
-        return Objects.equals(name, good.name) && Objects.equals(price, good.price);
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Goods goods = (Goods) o;
+        return id != null && Objects.equals(id, goods.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price);
+        return getClass().hashCode();
     }
 }

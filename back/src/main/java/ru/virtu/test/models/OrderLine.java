@@ -1,8 +1,17 @@
 package ru.virtu.test.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name="Order_line")
 public class OrderLine {
@@ -14,18 +23,16 @@ public class OrderLine {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @ToString.Exclude
     private OrderGoods orderGoods;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Goods goods;
 
     @Column(name = "count")
     private Long count;
-
-    public OrderLine(){
-
-    }
 
     public OrderLine(OrderGoods orderGoods, Goods goods, Long count) {
         this.orderGoods = orderGoods;
@@ -37,38 +44,6 @@ public class OrderLine {
         this.id = id;
         this.orderGoods = orderGoods;
         this.goods = goods;
-        this.count = count;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public OrderGoods getOrder() {
-        return orderGoods;
-    }
-
-    public void setOrder(OrderGoods orderGoods) {
-        this.orderGoods = orderGoods;
-    }
-
-    public Goods getGood() {
-        return goods;
-    }
-
-    public void setGood(Goods goods) {
-        this.goods = goods;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
         this.count = count;
     }
 
