@@ -53,7 +53,7 @@ public class GoodsController {
         Goods goods = convertToGoods(goodsDTO);
         goodsService.update(id, goods);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}/delete")

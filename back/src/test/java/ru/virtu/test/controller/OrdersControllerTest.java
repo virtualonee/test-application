@@ -7,13 +7,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.virtu.test.dto.GoodsDTO;
-import ru.virtu.test.dto.GoodsDTOTest;
-import ru.virtu.test.models.Goods;
-import ru.virtu.test.services.GoodsService;
+import ru.virtu.test.dto.OrderDTO;
+import ru.virtu.test.dto.OrderDTOTest;
+import ru.virtu.test.models.OrderGoods;
+import ru.virtu.test.services.OrdersService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -24,61 +26,56 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(GoodsController.class)
-class GoodsControllerTest {
+@WebMvcTest(OrdersController.class)
+class OrdersControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private GoodsService service;
+    private OrdersService service;
 
-    List<GoodsDTO> goodsDTOList;
-    List<Goods> goodsList;
+    List<OrderGoods> orderList;
+    OrderGoods order;
 
-    GoodsDTO goodsDTO;
-    Goods goods;
+    OrderDTOTest orderDTOTest;
 
     MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
 
-    public GoodsControllerTest() {
-        this.goodsDTO = new GoodsDTO(1L, "goodsDTO", 100L);
-        this.goodsDTOList = Collections.singletonList(goodsDTO);
+    public OrdersControllerTest() {
+        this.order = new OrderGoods(1L,"newClient","newAddress", new Date(), new ArrayList<>());
+        this.orderList = Collections.singletonList(order);
 
-        this.goods = new Goods(1L,"goods", 50L);
-        this.goodsList = Collections.singletonList(goods);
+        this. orderDTOTest = new OrderDTOTest("newClient","newAddress", new Date());
     }
 
     @Test
-    public void getAllGoodses_Success() throws Exception {
+    public void getAllOrders_Success() throws Exception {
 
-        when(service.findAll()).thenReturn(goodsList);
-        this.mockMvc.perform(get("/goods"))
+        when(service.findAll()).thenReturn(orderList);
+        this.mockMvc.perform(get("/order"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].name").value("goods"))
-                .andExpect(jsonPath("$[0].price").value("50"));
+                .andExpect(jsonPath("$[0].client").value("newClient"))
+                .andExpect(jsonPath("$[0].address").value("newAddress"));
     }
 
     @Test
-    public void getGoods_Success() throws Exception {
-
-        when(service.findOne(1L)).thenReturn(goods);
-        this.mockMvc.perform(get("/goods/1/get"))
+    public void getOrder_Success() throws Exception {
+        when(service.findOne(1L)).thenReturn(order);
+        this.mockMvc.perform(get("/order/1/get"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.name").value("goods"))
-                .andExpect(jsonPath("$.price").value("50"));
+                .andExpect(jsonPath("$.client").value("newClient"))
+                .andExpect(jsonPath("$.address").value("newAddress"));
     }
 
     @Test
-    public void addGoods_Success() throws Exception {
-        GoodsDTOTest goods = new GoodsDTOTest("newName", 100L);
-
+    public void addOrder_Success() throws Exception {
         ObjectMapper Obj = new ObjectMapper();
-        String json = Obj.writeValueAsString(goods);
+        String json = Obj.writeValueAsString(orderDTOTest);
 
-        this.mockMvc.perform(post("/goods/add").accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
+        this.mockMvc.perform(post("/order/add").accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -87,13 +84,13 @@ class GoodsControllerTest {
     }
 
     @Test
-    public void updateGoods_Success() throws Exception {
-        GoodsDTO goods = new GoodsDTO(1L,"newName", 100L);
+    public void updateOrder_Success() throws Exception {
+        OrderDTO goods = new OrderDTO(1L,"newClient","newAddress", new Date());
 
         ObjectMapper Obj = new ObjectMapper();
         String json = Obj.writeValueAsString(goods);
 
-        this.mockMvc.perform(put("/goods/1/update").accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
+        this.mockMvc.perform(put("/order/1/update").accept(MEDIA_TYPE_JSON_UTF8).contentType(MEDIA_TYPE_JSON_UTF8)
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -102,12 +99,10 @@ class GoodsControllerTest {
     }
 
     @Test
-    public void deleteGoods_Success() throws Exception {
-
-        this.mockMvc.perform(delete("/goods/1/delete"))
+    public void deleteOrder_Success() throws Exception {
+        this.mockMvc.perform(delete("/order/1/delete"))
                 .andExpect(status().isOk());
 
         verify(service).delete(any());
     }
-
 }

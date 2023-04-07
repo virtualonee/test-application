@@ -3,9 +3,11 @@ package ru.virtu.test.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class GoodsDTO {
 
@@ -18,4 +20,5 @@ public class GoodsDTO {
         this.name = name;
         this.price = price;
     }
+
 }

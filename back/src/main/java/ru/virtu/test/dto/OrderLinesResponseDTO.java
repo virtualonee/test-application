@@ -13,4 +13,11 @@ public class OrderLinesResponseDTO {
     public Long goodsId;
     public Long orderGoods;
     public Long count;
+
+    public OrderLinesResponseDTO(Long id, Long goodsId, Long orderGoods, Long count) {
+        this.id = id;
+        this.goodsId = goodsId;
+        this.orderGoods = orderGoods;
+        this.count = count;
+    }
 }

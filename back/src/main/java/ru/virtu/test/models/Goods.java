@@ -43,6 +43,10 @@ public class Goods {
         this.price = price;
     }
 
+    public Goods(Long id){
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

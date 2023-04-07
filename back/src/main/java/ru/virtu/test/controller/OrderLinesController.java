@@ -30,7 +30,7 @@ public class OrderLinesController {
 
         orderLinesService.saveDTO(orderLineDTO);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/update")

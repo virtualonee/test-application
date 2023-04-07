@@ -51,6 +51,25 @@ public class OrderGoods {
         this.orderLines = orderLines;
     }
 
+    public OrderGoods(Long id, String client, String address, Date date, List<OrderLine> orderLines){
+        this.id = id;
+        this.client = client;
+        this.address = address;
+        this.date = date;
+        this.orderLines = orderLines;
+    }
+
+    public OrderGoods(Long id, String client, String address, Date date){
+        this.id = id;
+        this.client = client;
+        this.address = address;
+        this.date = date;
+    }
+
+    public OrderGoods(Long id){
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

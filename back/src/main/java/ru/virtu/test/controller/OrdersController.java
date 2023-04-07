@@ -46,7 +46,7 @@ public class OrdersController {
         OrderGoods order = convertToOrder(orderDTO);
         ordersService.save(order);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/update")

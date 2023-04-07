@@ -35,18 +35,14 @@ class GoodsServiceTest {
     void findAll() {
         given(goodsesRepository.findAll()).willReturn((Collections.singletonList(this.goods)));
 
-        Goods goods = goodsService.findAll().get(0);
-
-        assertThat(goods.getName()).isEqualTo("goods");
+        assertThat(goodsService.findAll().get(0).getName()).isEqualTo("goods");
     }
 
     @Test
     void findOne() {
         given(goodsesRepository.findById(1L)).willReturn(java.util.Optional.of(this.goods));
 
-        Goods goods = goodsService.findOne(1L);
-
-        assertThat(goods.getName()).isEqualTo("goods");
+        assertThat(goodsService.findOne(1L).getName()).isEqualTo("goods");
     }
 
     @Test
