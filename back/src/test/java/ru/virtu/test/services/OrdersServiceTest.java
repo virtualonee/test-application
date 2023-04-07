@@ -2,12 +2,12 @@ package ru.virtu.test.services;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OrdersServiceTest {
 
     @Test
     void findAll() {
+
+
     }
 
     @Test

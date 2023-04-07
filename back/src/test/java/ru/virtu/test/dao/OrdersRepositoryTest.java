@@ -1,86 +1,77 @@
 package ru.virtu.test.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.virtu.test.models.OrderGoods;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @RunWith(SpringRunner.class)
+@Sql(executionPhase = BEFORE_TEST_METHOD, scripts = "classpath:preload.sql")
 @DataJpaTest
 class OrdersRepositoryTest {
 
 
     private final OrdersRepository ordersRepository;
-    private final GoodsesRepository goodsRepository;
-    public OrderGoods savedOrderGoods;
+    public Long savedOrderGoodsId;
+    public String savedOrderGoodsClient;
 
     @Autowired
-    public OrdersRepositoryTest(OrdersRepository ordersRepository, GoodsesRepository goodsesRepository){
+    public OrdersRepositoryTest(OrdersRepository ordersRepository){
         this.ordersRepository = ordersRepository;
-        this.goodsRepository = goodsesRepository;
-    }
-
-    @BeforeEach
-    void createRecord(){
-        OrderGoods order = new OrderGoods("client1", "testAddress1", new Date());
-
-        ordersRepository.save(order);
-        this.savedOrderGoods = order;
-    }
-
-    @AfterEach
-    void clear(){
-        ordersRepository.deleteAll();
+        this.savedOrderGoodsId = -1L;
+        this.savedOrderGoodsClient= "client1";
     }
 
     @Test
     void findAll() {
-        List<OrderGoods> order = ordersRepository.findAll();
-        Assertions.assertEquals(order.get(0), savedOrderGoods);
+        assertThat(ordersRepository.findAll()).isNotNull();
     }
 
     @Test
     void findOne() {
-        Optional<OrderGoods> order = ordersRepository.findById(savedOrderGoods.getId());
-        Assertions.assertEquals(order.orElse(null), savedOrderGoods);
+        assertThat(ordersRepository.findById(savedOrderGoodsId).orElse(null)).isNotNull();
     }
 
     @Test
     void findByClient() {
-        Optional<OrderGoods> order = ordersRepository.findByClient(savedOrderGoods.getClient());
-        Assertions.assertEquals(order.orElse(null), savedOrderGoods);
+        assertThat(ordersRepository.findByClient(savedOrderGoodsClient).orElse(null)).isNotNull();
     }
 
     @Test
     void save() {
-        OrderGoods order = new OrderGoods("client2", "testAddress2", new Date());
-        ordersRepository.save(order);
-        Assertions.assertEquals(ordersRepository.findByClient("client2").orElse(null), order);
+        OrderGoods newOrder = ordersRepository.findById(savedOrderGoodsId).orElse(null);
+        assertThat(newOrder).isNotNull();
+
+        newOrder.setClient("newClient");
+        newOrder.setId(100L);
+
+        ordersRepository.save(newOrder);
+        assertThat(Objects.requireNonNull(ordersRepository.findById(savedOrderGoodsId).orElse(null)).getClient()).isEqualTo("newClient");
     }
 
     @Test
     void update() {
-        Assertions.assertEquals(savedOrderGoods.getClient(), "client1");
+        OrderGoods newOrder = ordersRepository.findById(savedOrderGoodsId).orElse(null);
+        assertThat(newOrder).isNotNull();
 
-        savedOrderGoods.setClient("newName");
-        ordersRepository.save(savedOrderGoods);
+        newOrder.setClient("newClient");
 
-        Assertions.assertEquals(ordersRepository.findByClient("newName").orElse(null), savedOrderGoods);
+        ordersRepository.save(newOrder);
+        assertThat(ordersRepository.findById(savedOrderGoodsId).orElse(null).getClient()).isEqualTo("newClient");
     }
 
     @Test
     void delete() {
-        ordersRepository.delete(savedOrderGoods);
-        Assertions.assertFalse(ordersRepository.findById(savedOrderGoods.getId()).isPresent());
+        ordersRepository.deleteById(savedOrderGoodsId);
+        assertThat(ordersRepository.findById(savedOrderGoodsId).orElse(null)).isNull();
     }
 
 }

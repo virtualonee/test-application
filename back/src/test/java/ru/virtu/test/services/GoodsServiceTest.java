@@ -68,7 +68,6 @@ class GoodsServiceTest {
 
     @Test
     void delete() {
-
         goodsService.delete(this.goods.getId());
 
         verify(goodsesRepository).deleteById(this.goods.getId());
