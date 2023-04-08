@@ -12,8 +12,8 @@ import { GoodsComponent } from './components/goods/goods.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { CreateFormComponent } from './components/goods/create-form/create-form.component';
 import { CreateFormOrdersComponent } from './components/orders/create-form-orders/create-form-orders.component';
-import { OrdersGoodsComponent } from './components/orders/orders-goods/orders-goods.component';
-import { CreateFormOrdersGoodsComponent } from './components/orders/orders-goods/create-form-orders-goods/create-form-orders-goods.component';
+import { OrdersGoodsComponent } from './components/orders-goods/orders-goods.component';
+import { CreateFormOrdersGoodsComponent } from './components/orders-goods/create-form-orders-goods/create-form-orders-goods.component';
 
 const routes: Routes = [
   { path: '', component: OrdersComponent, pathMatch: 'full'},

@@ -3,6 +3,7 @@ import { Order } from 'src/app/entity/orders';
 import { GlobalConstants } from 'src/app/constants/constant';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { OrdersProviderService } from 'src/app/services/orders-provider/orders-provider.service';
 
 @Component({
   selector: 'app-orders',
@@ -15,40 +16,22 @@ export class OrdersComponent implements OnInit {
   orders: Order[] = [];
   url:string = GlobalConstants.url+'/order';
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.http.get<Order[]>(this.url).subscribe(result => {
-      console.log(result);
-      result.forEach(order => {
-        order.isCollapsedButton=true;
-        console.log(order.date.getDate);
-        this.orders.push(order);
-      });   
-    })
-  }
+  constructor(private router: Router, private provider:OrdersProviderService) {}
 
-  update(id:bigint){
-    
+  update(id:bigint){    
     const order = this.orders.find(element => 
       element.id==id
     );
-    console.log(id);
-    console.log(order);
 
-    return this.http.put(GlobalConstants.url+'/order/'+id+'/updateClientData', order).subscribe((result) => {
-      console.warn('result: ', result);
-      window.location.reload();
-    });
+    this.provider.update(id, order);
   }
 
   deleteOrder(id:bigint){
-    this.http.delete(this.url+'/'+String(id)+'/delete')
-        .subscribe();
-    
-    window.location.reload();
+    this.provider.delete(id);
   }
 
   ngOnInit() {
-    
+    this.orders = this.provider.getAll();
   }
 
   callForm(){

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Validators, FormBuilder } from '@angular/forms';
 import { GlobalConstants } from 'src/app/constants/constant';
+import { OrdersProviderService } from 'src/app/services/orders-provider/orders-provider.service';
 
 @Component({
   selector: 'app-create-form-orders',
@@ -21,7 +22,7 @@ export class CreateFormOrdersComponent implements OnInit {
 
   isSuccess:boolean = false;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) { }
+  constructor(private http: HttpClient, private fb: FormBuilder, private provider:OrdersProviderService) { }
 
   ngOnInit() {
   }
@@ -31,15 +32,7 @@ export class CreateFormOrdersComponent implements OnInit {
   }
 
   post(){ 
-
-    console.log(this.orders.getRawValue());
-
-    return this.http.post(GlobalConstants.url+'/order/add', this.orders.value).subscribe((result) => {
-      console.warn('result: ', result);
-      window.location.reload();
-    });
-
-    
+    this.provider.post(this.orders.value);
   }
 
 }

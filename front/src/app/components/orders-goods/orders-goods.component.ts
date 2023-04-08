@@ -5,6 +5,7 @@ import { Order } from 'src/app/entity/orders';
 import { HttpClient } from '@angular/common/http';
 import { orderLine } from 'src/app/entity/orderLines';
 import { element } from 'protractor';
+import { OrdersGoodsProviderService } from 'src/app/services/orders-goods-provider/orders-goods-provider.service';
 
 @Component({
   selector: 'app-orders-goods',
@@ -19,20 +20,19 @@ export class OrdersGoodsComponent implements OnInit {
   sum:bigint;
   public isCreateForm:boolean=false;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private router: Router, private provider:OrdersGoodsProviderService) { }
 
   ngOnInit() {
 
     this.activatedRoute.params.subscribe(s => {
       this.pathId=parseInt(s["id"]);
-      
     });
 
     this.http.get<Order>(GlobalConstants.url+'/order/'+this.pathId+'/get').subscribe(result => {
       this.order=result;
       this.orderLines =this.order.orderLinesDTOS;
 
-      this.order.sum=this.order.id-this.order.id; //TODO 
+      this.order.sum=this.order.id-this.order.id;
 
       this.orderLines.map(element => {
         element.sum=element.count*element.goodsPrice;
@@ -54,10 +54,7 @@ export class OrdersGoodsComponent implements OnInit {
   }
 
   deleteOrderGoods(id:bigint){
-    this.http.delete(GlobalConstants.url+'/order_lines/'+String(id)+'/delete')
-        .subscribe();
-    
-    window.location.reload();
+    this.provider.delete(id);
   }
 
   callForm(){
@@ -69,17 +66,11 @@ export class OrdersGoodsComponent implements OnInit {
   }
 
   update(id:bigint){
-    
     const orderLine = this.orderLines.find(element => 
       element.id==id
     );
 
-    console.log(orderLine.count)
-
-    return this.http.put(GlobalConstants.url+'/order_lines/'+id+'/update', orderLine).subscribe((result) => {
-      console.warn('result: ', result);
-      window.location.reload();
-    });
+    this.provider.update(id, orderLine);
   }
 
 }

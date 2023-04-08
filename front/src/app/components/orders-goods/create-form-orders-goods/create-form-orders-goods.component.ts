@@ -5,6 +5,8 @@ import { GlobalConstants } from 'src/app/constants/constant';
 import { orderLine } from 'src/app/entity/orderLines';
 import { Goods } from 'src/app/entity/goods';
 import { OrderLineRequest } from 'src/app/entity/orderLineRequest';
+import { OrdersGoodsProviderService } from 'src/app/services/orders-goods-provider/orders-goods-provider.service';
+import { GoodsProviderService } from 'src/app/services/goods-provider/goods-provider.service';
 
 @Component({
   selector: 'app-create-form-orders-goods',
@@ -23,19 +25,11 @@ export class CreateFormOrdersGoodsComponent implements OnInit {
 
   isSuccess:boolean = false;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) { 
-
-    this.http.get<Goods[]>(GlobalConstants.url+'/goods').subscribe(result => {
-      console.log(result);
-      result.forEach(goods => {
-        goods.isCollapsedButton=true;
-        this.goodses.push(goods);
-      });
-
-  });
-}
+  constructor(private fb: FormBuilder, 
+    private orderGoodsProvider:OrdersGoodsProviderService, private goodsProvider:GoodsProviderService) { }
 
   ngOnInit() {
+    this.goodses = this.goodsProvider.getAll();
   }
 
   closeForm(){
@@ -47,14 +41,6 @@ export class CreateFormOrdersGoodsComponent implements OnInit {
 
     console.log(this.orderLineRequest);
 
-    return this.http.post(GlobalConstants.url+'/order_lines/add', this.orderLineRequest).subscribe((result) => {
-      console.warn('result: ', result);
-      window.location.reload();
-    });
-
-    
-
-    
+    this.orderGoodsProvider.post(this.orderLineRequest);    
   }
-
 }
