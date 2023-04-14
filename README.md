@@ -1,6 +1,6 @@
 # test-application
 
-Тестовое задание в вакансии Java Developer:
+Тестовое задание к вакансии Java Developer:
 
 Технологии: 
 - среда разработки intellij idea
