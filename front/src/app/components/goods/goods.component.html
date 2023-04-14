@@ -19,7 +19,7 @@
           <td *ngIf="!g.isCollapsedButton"><input type="text" [(ngModel)]="g.name"></td>
 
           <td *ngIf="g.isCollapsedButton">{{g.price}}</td>
-          <td *ngIf="!g.isCollapsedButton"><input type="number" [(ngModel)]="g.price"></td>
+          <td *ngIf="!g.isCollapsedButton"><input type="number" min="0" [(ngModel)]="g.price"></td>
           <td>
             <button class="btn btn-warning rounded-pill px-3" type="button" *ngIf="g.isCollapsedButton" (click)="toggleCollapse(g.id)">Изменить</button>
             <button class="btn btn-primary rounded-pill px-3" type="button" *ngIf="!g.isCollapsedButton" (click)="update(g.id)">Сохранить</button>
