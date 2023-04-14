@@ -43,10 +43,16 @@
 журналами через вкладки)
 - возможность добавления, изменения, удаления и редактирования заказа и справочника товаров
 
-# Реализация
+# Реализация. Вид приложения:
 
-## Вид приложения:
+## Справочник товаров
 
-### Справочник товаров
-![Alt-текст](https://avatars1.githubusercontent.com/u/5384215?v=3&s=460 "Орк")
-![Image alt](https://github.com/{username}/{repository}/raw/{branch}/{path}/image.png)
+![Image alt](https://github.com/virtualonee/test-application/blob/main/images/2.png)
+
+## Журнал заказов
+
+![Image alt](https://github.com/virtualonee/test-application/blob/main/images/4.png)
+
+## Заказы клиента
+
+![Image alt](https://github.com/virtualonee/test-application/blob/main/images/6.png)
