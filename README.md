@@ -4,7 +4,7 @@
 - среда разработки intellij idea
 - сборщик Gradle
 - Spring
-- Spring Boot 2.0
+- Spring Boot 2.0 (3.0 после рефакторинга)
 - Spring Data JPA
 - база данных H2
 - контейнер сервлетов Tomcat, Jetty
